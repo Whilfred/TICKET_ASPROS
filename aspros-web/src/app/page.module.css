@@ -30,6 +30,7 @@
 .highlight {
   background: linear-gradient(135deg, var(--neon-blue), var(--electric-blue));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
