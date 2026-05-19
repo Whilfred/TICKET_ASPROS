@@ -15,6 +15,8 @@ app.get('/', (req, res) => {
   res.json({ message: 'API ASPROS Billetterie 🎟️' });
 });
 
+app.use('/api/events', require('./routes/events.routes'));
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
