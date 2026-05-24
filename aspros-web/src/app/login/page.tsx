@@ -6,25 +6,32 @@ import styles from './login.module.css';
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
-      window.location.href = '/dashboard';
+      // Save simulated user session
+      localStorage.setItem('aspros_user', JSON.stringify({
+        email: email,
+        name: email.split('@')[0],
+        role: 'buyer',
+        points: 450
+      }));
+      window.location.href = '/profile';
     }, 1500);
   };
 
   return (
     <div className={styles.container}>
-      {/* Background decorations */}
-      <div className={`${styles.blob} ${styles.blob1}`}></div>
-      <div className={`${styles.blob} ${styles.blob2}`}></div>
-      
       <div className={`glass ${styles.formCard} animate-fade-in`}>
         <div className={styles.header}>
+          <div className={styles.logoBadge}>A</div>
           <h1 className={styles.title}>Bienvenue</h1>
           <p className={styles.subtitle}>Connectez-vous à votre compte ASPROS</p>
         </div>
@@ -36,7 +43,9 @@ export default function LoginPage() {
               type="email" 
               id="email" 
               className="form-input" 
-              placeholder="vous@exemple.com"
+              placeholder="nom@exemple.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required 
             />
           </div>
@@ -44,13 +53,15 @@ export default function LoginPage() {
           <div className={styles.inputGroup}>
             <div className={styles.labelRow}>
               <label htmlFor="password" className={styles.label}>Mot de passe</label>
-              <Link href="#" className={styles.forgotPassword}>Mot de passe oublié ?</Link>
+              <Link href="#" className={styles.forgotPassword}>Oublié ?</Link>
             </div>
             <input 
               type="password" 
               id="password" 
               className="form-input" 
               placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required 
             />
           </div>
@@ -69,9 +80,15 @@ export default function LoginPage() {
         </form>
 
         <div className={styles.footer}>
-          <p>Nouveau sur ASPROS ? <Link href="#" className={styles.registerLink}>Créer un compte</Link></p>
+          <p>
+            Nouveau sur ASPROS ? <br />
+            <Link href="/register" className={styles.registerLink}>
+              Créer un compte
+            </Link>
+          </p>
         </div>
       </div>
     </div>
   );
 }
+

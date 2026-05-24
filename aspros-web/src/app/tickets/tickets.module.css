@@ -1,0 +1,359 @@
+.container {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.pageTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.ticketCount {
+  background: var(--primary-blue);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.ticketsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Coupon-style Card Layout */
+.ticketCard {
+  display: flex;
+  height: 125px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ticketCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ticketMain {
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.badge {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--primary-blue);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.eventTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text-primary);
+}
+
+.eventDate,
+.eventLocation {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ticketFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  border-top: 1px dashed var(--border-color);
+  padding-top: 6px;
+  margin-top: auto;
+}
+
+.pricePaid {
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+/* Dotted Tear Line with side circles */
+.divider {
+  width: 14px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.circleTop {
+  position: absolute;
+  top: -8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  z-index: 2;
+}
+
+.circleBottom {
+  position: absolute;
+  bottom: -8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  z-index: 2;
+}
+
+.dashedLine {
+  height: 100%;
+  border-left: 2px dashed var(--border-color);
+  opacity: 0.8;
+}
+
+.ticketStub {
+  width: 80px;
+  background: rgba(37, 99, 235, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  gap: 6px;
+}
+
+.miniQrIcon {
+  color: var(--primary-blue);
+  opacity: 0.8;
+  display: flex;
+}
+
+.stubText {
+  font-size: 0.55rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.stubId {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Modal specific styles */
+.modalSheet {
+  max-height: 90% !important;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.statusIndicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #10b981;
+  animation: pulse 1.8s infinite;
+}
+
+.modalTitle {
+  font-size: 1.25rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.modalDate {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* Animated QR Code Container */
+.qrContainer {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  padding: 14px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.qrCodePattern {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: white;
+}
+
+.qrSquare {
+  position: absolute;
+  border: 4px solid #000000;
+  width: 36px;
+  height: 36px;
+}
+
+.qrTopLeft {
+  top: 0;
+  left: 0;
+}
+
+.qrTopRight {
+  top: 0;
+  right: 0;
+}
+
+.qrBottomLeft {
+  bottom: 0;
+  left: 0;
+}
+
+.qrInnerBlock {
+  position: absolute;
+  background-color: #000000;
+  border-radius: 1px;
+}
+
+/* Laser scan animation */
+.qrScannerLaser {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: #3b82f6;
+  box-shadow: 0 0 8px #3b82f6, 0 0 15px rgba(59, 130, 246, 0.5);
+  animation: scan 2.5s linear infinite;
+  z-index: 5;
+}
+
+.ticketDetailsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+  margin-bottom: 20px;
+  background: var(--bg-secondary);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+}
+
+.detailItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detailLabel {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.detailValue {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.securityHash {
+  font-family: monospace;
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.emptyState h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.emptyState p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  max-width: 250px;
+  line-height: 1.4;
+}

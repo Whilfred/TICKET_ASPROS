@@ -1,0 +1,222 @@
+.container {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 16px;
+  background: var(--bg-primary);
+  width: 100%;
+  overflow-y: auto;
+}
+
+.formCard {
+  width: 100%;
+  padding: 24px 20px;
+  border-radius: 20px;
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logoBadge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--electric-blue));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  box-shadow: var(--shadow-glow);
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: var(--text-primary);
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Role Selector Cards */
+.roleContainer {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.roleCard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 8px;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+  background: var(--bg-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.roleCard:hover {
+  border-color: var(--primary-blue);
+}
+
+.activeRole {
+  border-color: var(--primary-blue) !important;
+  background: rgba(37, 99, 235, 0.05) !important;
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.1);
+}
+
+.roleIcon {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+.roleTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.roleDesc {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+/* Phone input with country prefix selector */
+.phoneInputRow {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.countrySelect {
+  width: 95px;
+  padding: 12px 6px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.countrySelect:focus {
+  border-color: var(--primary-blue);
+  background: var(--bg-primary);
+}
+
+/* Password strength meter */
+.strengthMeterRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.strengthLabel {
+  color: var(--text-secondary);
+}
+
+.strengthVal {
+  font-weight: 700;
+}
+
+.strengthBarBg {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-secondary);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.strengthBarFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+.submitBtn {
+  margin-top: 8px;
+  height: 48px;
+  width: 100%;
+}
+
+.loading {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.footer {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.loginLink {
+  color: var(--primary-blue);
+  font-weight: 700;
+  margin-top: 4px;
+  display: inline-block;
+}
+
+.loginLink:hover {
+  text-decoration: underline;
+}

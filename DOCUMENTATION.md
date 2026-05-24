@@ -1,206 +1,134 @@
 # ASPROS — Rapport de Développement & Documentation Technique
 ## Plateforme Africaine de Billetterie & Collecte Solidaire
-*Maquette Frontend Interactive Réalisée en Next.js 16.2 & React 19*
+*Maquette Frontend Interactive Réalisée en Next.js 16.2 & React 19 (Version Mobile-First)*
 
 ---
 
 ## 1. Introduction & Vision Produit
 
-**ASPROS** est une plateforme moderne de billetterie en ligne et de collecte solidaire conçue spécifiquement pour répondre aux besoins et réalités du marché africain. Elle allie la puissance des solutions de billetterie événementielle mondiales à des mécanismes d'adaptation locaux (Mobile Money, points de vente physiques, vente assistée, contrôle d'accès optimisé et gestion de campagnes solidaires).
+**ASPROS** est une plateforme moderne de billetterie en ligne et de collecte solidaire conçue spécifiquement pour répondre aux besoins et réalités du marché africain.
 
-### Proposition de Valeur Clé
-*   **Pour les Promoteurs :** Un véritable "système d'exploitation" pour gérer la création d'événements, la tarification des billets (Standard, VIP, Early Bird, Don Libre), le suivi des ventes en temps réel, et un contrôle d'accès sécurisé par scan de QR code.
-*   **Pour les Acheteurs :** Une expérience fluide, optimisée pour le mobile, permettant l'achat rapide et sécurisé de billets d'événements (concerts, cinéma, spectacles, formations) ou la contribution à des collectes sociales.
-*   **Volet Solidaire :** Intégration native de collectes de fonds transparentes pour soutenir des causes sociales, médicales, éducatives ou associatives.
+Cette nouvelle version franchit un cap décisif en adoptant une **architecture mobile-first complète**. Afin d'offrir une expérience de test exceptionnelle sur tous les appareils :
+*   **Sur ordinateur (Desktop) :** L'application s'exécute au sein d'un **Simulateur de Smartphone Premium** (avec encoche, barre d'état système, heure réelle, icônes réseau/batterie et indicateur d'accueil). Cela permet de manipuler l'application exactement comme sur un téléphone portable, entourée d'un fond flouté et dynamique.
+*   **Sur téléphone (Mobile) :** Le simulateur s'efface automatiquement (via des requêtes médias CSS `@media`) pour laisser place à une **application web mobile native plein écran** avec une zone tactile optimisée.
 
 ---
 
 ## 2. Architecture Technique & Spécifications
 
-La maquette de démonstration a été initialisée avec des technologies modernes garantissant d'excellentes performances, une réactivité maximale sur mobile (Mobile-First) et une extensibilité solide.
-
-### Stack Technique Principale
-*   **Framework :** [Next.js](https://nextjs.org/) `16.2.6` (App Router) pour des performances optimales et un référencement (SEO) efficace.
-*   **Bibliothèque UI :** [React](https://react.dev/) `19.2.4` pour la gestion des composants et du rendu.
-*   **Langage :** [TypeScript](https://www.typescriptlang.org/) `5` pour un code robuste, typé et sécurisé.
-*   **Style :** CSS Vanilla via **CSS Modules** pour un contrôle total sur l'esthétique premium sans dépendances superflues, évitant les surcharges de framework CSS.
-*   **Police :** `Outfit` de Google Fonts (intégrée de manière optimisée via `@import` dans le style global).
+La structure de l'application suit les standards de Next.js (App Router) avec un typage TypeScript strict pour assurer la stabilité du build.
 
 ### Structure de l'Arborescence du Projet
-L'architecture de l'application est organisée selon les standards Next.js App Router :
 
 ```text
 TICKET_ASPROS/
 ├── cahier_de_charge/
 │   └── cahier_de_charge.md        # Spécifications détaillées fonctionnelles et techniques
 ├── aspros-web/
-│   ├── public/                     # Actifs statiques et SVG d'icônes
+│   ├── public/                     # Favoris et icônes
 │   ├── src/
 │   │   ├── app/                    # Système de routage App Router
-│   │   │   ├── dashboard/          # Espace d'administration du promoteur
+│   │   │   ├── dashboard/          # Espace d'administration mobile du promoteur
 │   │   │   │   ├── dashboard.module.css
 │   │   │   │   └── page.tsx
-│   │   │   ├── login/              # Page d'authentification utilisateur / promoteur
+│   │   │   ├── explore/            # Page de recherche et exploration par thématiques
+│   │   │   │   └── page.tsx
+│   │   │   ├── login/              # Page de connexion mobile
 │   │   │   │   ├── login.module.css
 │   │   │   │   └── page.tsx
-│   │   │   ├── globals.css         # Thème, variables CSS et styles globaux
-│   │   │   ├── layout.tsx          # Template global de l'application (HTML/Body/Providers)
+│   │   │   ├── register/           # Page d'inscription mobile avec sélecteur de préfixes africains
+│   │   │   │   ├── register.module.css
+│   │   │   │   └── page.tsx
+│   │   │   ├── tickets/            # Portefeuille de billets (Coupons et QR codes animés)
+│   │   │   │   ├── tickets.module.css
+│   │   │   │   └── page.tsx
+│   │   │   ├── profile/            # Page de compte, fidélité et switch promoteur
+│   │   │   │   ├── profile.module.css
+│   │   │   │   └── page.tsx
+│   │   │   ├── globals.css         # Variables de simulateur, thèmes et animations CSS
+│   │   │   ├── layout.tsx          # Shell applicatif configurant la grille Flex et le SimulatorShell
 │   │   │   ├── page.module.css
-│   │   │   └── page.tsx            # Page d'accueil publique (Catalogue d'événements)
+│   │   │   └── page.tsx            # Accueil / Flux d'événements et Bottom Sheet d'achat
 │   │   └── components/             # Composants d'interface utilisateur réutilisables
 │   │       ├── EventCard.module.css
-│   │       ├── EventCard.tsx       # Carte d'événement interactive avec effet Glow
+│   │       ├── EventCard.tsx       # Carte d'événement avec calendrier Facebook, réactions et jauge
 │   │       ├── Navigation.module.css
-│   │       ├── Navigation.tsx      # Barre de navigation avec commutateur de thème
-│   │       ├── ThemeProvider.tsx   # Fournisseur de contexte pour le thème Sombre/Clair
+│   │       ├── Navigation.tsx      # Navigation Header (haut) et NavigationTabBar (bas)
+│   │       ├── SimulatorShell.tsx  # Simulateur de smartphone avec heure réelle
+│   │       └── ThemeProvider.tsx   # Gestion globale du mode Sombre/Clair
 │   │   ├── tsconfig.json           # Configuration TypeScript
 │   │   ├── next.config.ts          # Configuration Next.js
-│   │   ├── package.json            # Dépendances et scripts de démarrage
-│   │   └── eslint.config.mjs       # Configuration de linter pour la qualité de code
-└── DOCUMENTATION.md                # Le présent document
+│   │   ├── package.json            # Dépendances (Next 16.2.6, React 19)
+│   └── DOCUMENTATION.md            # Le présent document
 ```
 
 ---
 
 ## 3. Le Design System & Identité Visuelle Premium
 
-Pour offrir une expérience utilisateur haut de gamme (effet *Wow*), l'application implémente un système de conception basé sur le **Glassmorphism** (effet de verre flouté) et des **dégradés vibrants** dans des tons bleus électriques et néons.
+Le thème s'appuie sur une charte graphique dominée par le **bleu électrique** combiné au **glassmorphism** pour créer une interface moderne et dynamique.
 
-### Variables de Conception (Design Tokens)
-Définies dans `globals.css` pour une synchronisation fluide entre les thèmes Sombre et Clair :
+### Variables de Conception Principales (Design Tokens)
 
-| Variable CSS | Thème Clair (Light Mode) | Thème Sombre (Dark Mode) | Usage |
-| :--- | :--- | :--- | :--- |
-| `--bg-primary` | `#f8fafc` | `#020617` (Bleu profond/Noir) | Fond d'écran principal |
-| `--bg-secondary`| `#f1f5f9` | `#0f172a` (Slate 900) | Fond de section et inputs |
-| `--text-primary` | `#0f172a` | `#f8fafc` | Texte principal lisible |
-| `--text-secondary`| `#475569` | `#94a3b8` | Légendes et textes secondaires |
-| `--primary-blue` | `#2563eb` (Royal Blue) | `#3b82f6` (Neon Blue) | Boutons, liens actifs et focus |
-| `--electric-blue`| `#0ea5e9` | `#38bdf8` | Dégradés et effets visuels secondaires |
-| `--card-bg` | `rgba(255, 255, 255, 0.85)`| `rgba(15, 23, 42, 0.7)` | Arrière-plan flou effet verre |
-| `--card-border` | `rgba(255, 255, 255, 1)` | `rgba(255, 255, 255, 0.05)`| Bordure subtile de verre |
-| `--shadow-glow` | `rgba(37, 99, 235, 0.3)` | `rgba(59, 130, 246, 0.4)` | Ombre portée lumineuse néon |
-
-### Classes Utilitaires Globales
-*   **`.glass` :** Combine `backdrop-filter: blur(16px)` avec des bordures translucides (`border: 1px solid var(--card-border)`) et une couleur de fond alpha pour créer l'effet de plaque de verre moderne et sophistiqué.
-*   **`.glow` :** Applique une ombre portée de type halo lumineux (`var(--shadow-glow)`) et une micro-animation de translation verticale (`translateY(-2px)`) lors du survol de l'élément pour renforcer l'interactivité.
-*   **`.btn-primary` :** Un bouton haut de gamme affichant un dégradé linéaire de `--primary-blue` vers `--electric-blue`, s'animant délicatement au survol.
-*   **`.animate-fade-in` :** Gère l'apparition progressive et le glissement vertical des pages lors du chargement via des animations CSS natives (`@keyframes fadeIn`).
+*   `--primary-blue` : `#2563eb` (Clair) / `#3b82f6` (Sombre). Couleur d'accent principale, boutons et états actifs.
+*   `--electric-blue` : `#0ea5e9` (Clair) / `#38bdf8` (Sombre). Utilisé pour les halos lumineux et dégradés néon.
+*   `--card-bg` : Fond translucide effet verre flou (`backdrop-filter: blur(16px)`).
+*   `--phone-width` & `--phone-height` : Définissent la taille fixe du simulateur desktop (`412px` par `840px`).
 
 ---
 
-## 4. Détails des Modules & Pages Implémentés
+## 4. Détails des Nouveaux Modules & Expériences Interactives
 
-### A. Navigation Globale & Commutateur de Thème (`Navigation.tsx` / `ThemeProvider.tsx`)
-La navigation de l'application est centralisée dans un en-tête persistant et hautement interactif :
-*   **Design de Verre :** Fixé en haut de page avec la classe `.glass`, il s'adapte à tous les écrans.
-*   **Gestion Dynamic du Thème (Sombre / Clair) :**
-    *   Implémenté via un contexte React (`ThemeProvider`) qui applique dynamiquement un attribut `data-theme` sur l'élément `<html>` et enregistre le choix de l'utilisateur dans le `localStorage` de son navigateur.
-    *   **Résolution du Faux-Rendu SSR :** Utilisation d'un état `mounted` qui retarde l'affichage interactif jusqu'à ce que le client soit prêt, évitant ainsi le clignotement ou la désynchronisation des thèmes lors du chargement initial.
-    *   **Contrôle Visuel :** Bouton commutateur de thème affichant dynamiquement un soleil `☀️` en mode sombre et une lune `🌙` en mode clair.
-*   **Routage Intégré :** Liens fluides vers l'Accueil, le Dashboard et un bouton primaire invitant à la Connexion.
+### A. Le Simulateur de Smartphone (`SimulatorShell.tsx` & `layout.tsx`)
+*   Encadre l'application dans une coque noire de smartphone sur grand écran.
+*   Intègre une barre d'état avec une horloge dynamique synchronisée sur l'heure réelle de la machine et des indicateurs de réseau Wi-Fi/4G et de batterie à 100%.
+*   Ajoute la barre d'accueil tactile iOS en bas.
+*   S'estompe instantanément sur mobile pour devenir une application web classique en plein écran.
 
-### B. Page d'Accueil & Catalogue d'Événements (`page.tsx` & `EventCard.tsx`)
-Conçue pour captiver l'utilisateur dès le premier regard :
-*   **Section Hero immersive :**
-    *   Titre principal accrocheur avec mise en valeur colorée : *"Vivez l'Événement, Autrement."*
-    *   **Décors Abstraits Dynamiques :** Deux grands cercles ("Blobs") colorés floutés en arrière-plan qui génèrent une profondeur visuelle moderne.
-*   **Filtres de Catégories Interactifs :**
-    *   Barre de filtres stylisée permettant de naviguer facilement entre les catégories principales : **Tous**, **Concerts**, **Cinéma** et **Solidarité**.
-*   **Grille de Catalogue :**
-    *   Rendue dynamiquement en utilisant le composant `<EventCard />`.
-    *   Affiche 4 événements types modélisés avec rigueur (Afrobeat 2026, Black Panther 3, Gala de Charité pour les Orphelins, Masterclass Tech).
-*   **Composant `EventCard.tsx` :**
-    *   Interface visuelle soignée : Image de l'événement avec un dégradé de secours de haute qualité si l'URL de l'image est absente.
-    *   Badge dynamique de catégorie positionné élégamment en haut à droite.
-    *   Informations structurées : Date & heure, Titre, Lieu précédé d'un indicateur géographique `📍`, Tarif en monnaie locale (FCFA) ou mention "Don Libre" pour les campagnes de solidarité, et un bouton d'action invitant à réserver ses billets.
+### B. Double Navigation Mobile (`Navigation.tsx`)
+*   **Header Supérieur (NavigationHeader) :** Reste fixé en haut. Affiche le logo *ASPROS* au dégradé bleu néon, le commutateur de thèmes (Soleil/Lune) et une cloche de notification surmontée d'un badge rouge actif.
+*   **Tab Bar Inférieure (NavigationTabBar) :** Menu à 4 onglets persistants (Accueil, Explorer, Tickets, Profil) qui utilise `usePathname` de Next.js pour styliser dynamiquement l'onglet en cours de visite avec une micro-animation de rebond vertical et un halo bleu électrique.
 
-### C. Page de Connexion Immersive (`login/page.tsx`)
-L'interface de connexion offre un parcours à la fois beau et fonctionnel :
-*   **Formulaire de Verre Centré :** Une carte glassmorphic élégante contenant des ombres soignées et des transitions fluides.
-*   **Champs de Saisie Interactifs :** Inputs d'email et de mot de passe bénéficiant d'effets de focus bleutés et d'un lien "Mot de passe oublié" intégré avec justesse.
-*   **Simulation Asynchrone d'API :**
-    *   Lors de la soumission du formulaire, un état de chargement (`isLoading`) est déclenché.
-    *   Un cercle de chargement CSS rotatif remplace temporairement le texte du bouton pendant **1,5 seconde** pour simuler une requête réseau réaliste.
-    *   L'utilisateur est ensuite redirigé de manière fluide vers le Tableau de bord.
+### C. Flux d'Événements & Tiroir d'Achat Express (`page.tsx`)
+*   **Stories / Spotlight (Bannières Tikerama) :** En haut de l'accueil, un carrousel horizontal affiche les grands événements vedettes.
+*   **Cartes d'Événements (Style Facebook) :**
+    *   Badge calendrier affichant le mois (rouge) et le jour (chiffre gras).
+    *   Boutons d'interactions rapides : "Intéressé" (qui incrémente le compteur en temps réel avec animation cardiaque rouge) et "Partager" (qui copie le lien dans le presse-papier avec notification).
+    *   Barre de progression de vente/financement en direct pour les catégories standard et solidaires.
+*   **Bottom Sheet (Tiroir d'Achat Express) :** Au clic sur le bouton de réservation, un volet glisse depuis le bas de l'écran et permet :
+    *   De choisir la quantité de tickets ou de définir le montant d'un don pour les collectes.
+    *   De choisir le réseau Mobile Money local (**Wave**, **Orange Money**, **MTN MoMo** ou **Carte Bancaire**).
+    *   De lancer le paiement simulé avec un écran de chargement d'opérateur (2 secondes) suivi d'une vue de réussite qui enregistre le billet dans le localStorage et permet d'accéder au portefeuille de billets.
 
-### D. Tableau de Bord du Promoteur (`dashboard/page.tsx`)
-Un tableau de bord complet, ergonomique et épuré pour piloter l'activité :
-*   **Structure à double colonne (Layout Sidebar + Main) :**
-    *   **Sidebar de Navigation Promoteur :** Permet de naviguer entre la *Vue d'ensemble*, *Mes Événements*, *Billets & Scans*, *Collectes Solidaires*, et les *Paramètres*. Elle intègre également un bouton de déconnexion stylisé.
-    *   **En-tête de Contenu :** Affiche le titre de l'écran en cours et un bouton d'action rapide pour créer un nouvel événement (`+ Créer un événement`).
-*   **Indicateurs Clés de Performance (KPI Cards) :**
-    *   **Billets vendus :** Affiche `1 245` ventes avec une étiquette verte indiquant une hausse de `+12% cette semaine`.
-    *   **Revenus générés :** Affiche `12.5M FCFA` collectés avec une étiquette indiquant une hausse de `+5% cette semaine`.
-    *   **Billets scannés :** Affiche `840` entrées validées avec un indicateur clignotant "En cours" (idéal pour le suivi en direct le jour de l'événement).
-*   **Tableau des Événements Actifs :**
-    *   Une table au design moderne listant les événements en cours du promoteur.
-    *   Colonnes claires : Nom, Date, Lieu, Statut, Ventes.
-    *   **Badges de Statut Contextuels :** Affichage d'un badge vert `Publié` pour les événements actifs (Festival Afrobeat, Gala de Charité) et d'un badge jaune/orange `Brouillon` pour les événements en cours d'édition (Masterclass Tech).
-    *   **Indication des ventes :** Affiche des rapports de capacité clairs (ex. `850 / 1000` billets vendus).
+### D. Portefeuille de Billets Interactif (`tickets/page.tsx`)
+*   Affiche les billets achetés en temps réel ou injecte un billet par défaut.
+*   **Design en Coupon :** Les cartes ont des pointillés de découpe et des demi-cercles creusés sur les côtés pour ressembler à de vrais tickets papier.
+*   **QR Code Animé :** Au clic sur un billet, un tiroir s'ouvre pour afficher le billet en grand avec les détails d'achat et un code QR simulé, traversé en permanence par un **laser bleu néon clignotant** (animation CSS de balayage).
+
+### E. Espace Promoteur & Scanneur Mobile (`dashboard/page.tsx`)
+*   **Scanner Virtuel d'Entrées :** Simule le scanner de l'agent à l'entrée. Affiche un viseur de caméra avec laser mobile. Après 2.5 secondes de recherche de code, il renvoie aléatoirement un écran vert "Billet Valide" ou un écran rouge "Billet Invalide / Déjà scanné" pour tester les différents cas d'erreurs réels.
+*   **Création Mobile d'Événement :** Formulaire tiroir rapide permettant au promoteur de saisir le nom, le lieu, la date, le prix et d'ajouter le nouvel événement instantanément dans sa liste sous forme de brouillon.
+
+### F. Inscription Mobile Spécifique (`register/page.tsx`)
+*   Comprend un sélecteur de rôle interactif (Acheteur / Promoteur) matérialisé par des cartes radio bleues.
+*   Contient un champ Téléphone équipé d'un **sélecteur de codes pays africains** (Côte d'Ivoire `+225`, Sénégal `+221`, Bénin `+229`, Togo `+228`, Mali `+223`, etc.) facilitant la facturation Mobile Money.
+*   Dispose d'un indicateur de complexité de mot de passe en temps réel (jauge colorée rouge/jaune/vert selon les caractères saisis).
 
 ---
 
-## 5. Synthèse des Fichiers Clés Livrés
+## 5. Guide de Démarrage Rapide
 
-Voici un récapitulatif détaillé des fichiers implémentés avec leur rôle technique respectif :
-
-| Fichier | Rôle principal | Détails d'implémentation |
-| :--- | :--- | :--- |
-| [`layout.tsx`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/app/layout.tsx) | Racine de l'application | Configure les métadonnées SEO, englobe les enfants dans le `ThemeProvider` et affiche l'en-tête global `<Navigation />`. |
-| [`globals.css`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/app/globals.css) | Identité visuelle | Déclare les variables CSS des thèmes Sombre/Clair, la police `Outfit`, le style de verre flouté (`.glass`), le halo au survol (`.glow`), et les animations de transition. |
-| [`ThemeProvider.tsx`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/components/ThemeProvider.tsx) | Gestion du thème | Utilise le Context API de React pour activer ou désactiver le mode sombre, écrit dans le `localStorage` et prévient les erreurs de rendu SSR. |
-| [`Navigation.tsx`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/components/Navigation.tsx) | En-tête global | Affiche la barre de navigation translucide, intègre le bouton d'inversion de thème et le bouton de connexion. |
-| [`page.tsx` (Root)](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/app/page.tsx) | Accueil public | Affiche la section Hero, les décors abstraits, le menu de filtrage par catégories, et la grille des événements à la une. |
-| [`EventCard.tsx`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/components/EventCard.tsx) | Carte d'événement | Modélise le layout de la carte d'événement avec ombre lumineuse au survol, badge de catégorie et bouton d'action. |
-| [`login/page.tsx`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/app/login/page.tsx) | Connexion | Propose un formulaire de connexion avec simulation asynchrone d'authentification de 1.5 seconde et chargement visuel. |
-| [`dashboard/page.tsx`](file:///c:/Users/hp/TICKET_ASPROS/aspros-web/src/app/dashboard/page.tsx) | Espace promoteur | Organise la vue d'ensemble avec sidebar, indicateurs de ventes clés (KPIs) et tableau de suivi des événements. |
-
----
-
-## 6. Guide de Lancement de la Maquette
-
-Pour exécuter et tester cette maquette en local sur votre environnement de développement :
-
-### 1. Prérequis
-*   Avoir installé **Node.js** (version 18 ou supérieure recommandée).
-*   Avoir accès à un terminal (PowerShell sur Windows ou Bash sur macOS/Linux).
-
-### 2. Procédure d'installation
-Ouvrez votre terminal dans le répertoire `aspros-web` du projet et installez les dépendances nécessaires :
-```bash
-cd aspros-web
-npm install
-```
-
-### 3. Lancer le serveur de développement
-Démarrez le serveur local de Next.js :
-```bash
-npm run dev
-```
-Une fois le serveur démarré, ouvrez votre navigateur et accédez à l'adresse suivante : [http://localhost:3000](http://localhost:3000)
-
-### 4. Compilation pour la production
-Pour tester la validité du build de production et s'assurer qu'aucune erreur TypeScript n'est présente :
-```bash
-npm run build
-```
-
----
-
-## 7. Prochaines Étapes de Développement (Roadmap Technologique)
-
-Pour passer de cette maquette frontend interactive à un produit de production commercialisable :
-
-1.  **Base de Données & Modélisation (Backend) :**
-    *   Configuration d'une base de données relationnelle **PostgreSQL**.
-    *   Mise en place de **Prisma ORM** pour gérer les modèles : `User` (rôles Acheteur, Promoteur, Admin), `Event`, `TicketCategory`, `Order`, `Ticket` (avec UUID unique et signature numérique pour QR code), et `SolidarityCampaign`.
-2.  **Mécanisme de Paiement Adapté (Afrique) :**
-    *   Intégration d'agrégateurs de paiement locaux (ex. **CinetPay**, **Paystack**, **Flutterwave**, **FedaPay** ou **Wave**) pour supporter nativement le Mobile Money (Orange Money, MTN, Moov, Wave) en plus des cartes bancaires.
-3.  **Module de Génération & Scan de Billets (QR Codes) :**
-    *   Génération de QR codes sécurisés au format Base64 ou SVG pour chaque billet émis.
-    *   Développement d'une PWA ou d'une application de scan légère (en Flutter ou React Native) exploitant la caméra du smartphone pour décoder le billet et interroger instantanément l'API de validation.
-4.  **Module Collecte Solidaire Enrichi :**
-    *   Création d'une page publique dédiée à chaque campagne solidaire avec une barre de progression dynamique (comparant le montant récolté à l'objectif financier), une liste des contributeurs et un bouton "Faire un don".
-5.  **Notifications & Délivrabilité :**
-    *   Envoi automatisé des billets électroniques par **Email** (via SendGrid ou Resend) et par **WhatsApp / SMS** (via Twilio ou API locale), formats très prisés en Afrique pour pallier les problèmes de consultation d'emails.
+1.  Placez-vous dans le sous-dossier `aspros-web` :
+    ```bash
+    cd aspros-web
+    ```
+2.  Installez les dépendances :
+    ```bash
+    npm install
+    ```
+3.  Lancez le serveur de développement local :
+    ```bash
+    npm run dev
+    ```
+4.  Ouvrez l'adresse : [http://localhost:3000](http://localhost:3000)
+    *   *Astuce :* Pour apprécier le simulateur de téléphone, visitez le lien depuis un ordinateur de bureau. Pour tester le rendu mobile natif plein écran, ouvrez l'inspecteur de votre navigateur en mode de simulation de terminal mobile ou visitez le lien directement depuis votre smartphone connecté au même réseau.

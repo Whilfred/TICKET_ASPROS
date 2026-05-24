@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { Navigation } from '@/components/Navigation';
+import { NavigationHeader, NavigationTabBar } from '@/components/Navigation';
+import { SimulatorShell } from '@/components/SimulatorShell';
 
 export const metadata: Metadata = {
   title: 'ASPROS - Billetterie et Collecte Solidaire',
@@ -17,12 +18,19 @@ export default function RootLayout({
     <html lang="fr" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <Navigation />
-          <main className="animate-fade-in">
-            {children}
-          </main>
+          <SimulatorShell>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
+              <NavigationHeader />
+              <main className="app-scrollbar animate-fade-in" style={{ flex: 1, overflowY: 'auto', position: 'relative', display: 'flex', flexDirection: 'column', paddingBottom: '20px' }}>
+                {children}
+              </main>
+              <NavigationTabBar />
+            </div>
+          </SimulatorShell>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+
+
