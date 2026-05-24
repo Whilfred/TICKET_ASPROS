@@ -15,6 +15,7 @@ export const EVENTS = [
     live: false,
     prices: ['16 000 XOF', '28 000 XOF', '50 000 XOF', '100 000 XOF'],
     publisher: 'ULTRACOM GROUP',
+    fullDescription: `NAZA, l'artiste le plus influent de sa génération, vous donne rendez-vous pour un concert exceptionnel au Parc des Expositions. Venez découvrir ses nouveaux titres en live et revivre ses classiques dans une ambiance électrique. Une soirée inoubliable vous attend avec des invités surprises et des performances spectaculaires.`
   },
   {
     id: 2,
@@ -32,6 +33,7 @@ export const EVENTS = [
     live: false,
     prices: ['5 000 XOF', '15 000 XOF', '30 000 XOF'],
     publisher: 'THEATRE IVOIRE',
+    fullDescription: `Drôles de Femmes revient pour une édition 2026 encore plus spectaculaire ! Le plus grand festival dédié aux femmes artistes d'Afrique. Humour, musique, danse et émotions sont au rendez-vous. Ne manquez pas ce moment unique de célébration de la femme africaine.`
   },
   {
     id: 3,
@@ -49,6 +51,7 @@ export const EVENTS = [
     live: true,
     prices: ['3 000 XOF', '8 000 XOF'],
     publisher: 'EVENTS AFRICA',
+    fullDescription: `CONCERT LIVE – CÉLÉBRATION 🎶 4 Divas • 1 Scène • Une soirée inoubliable ! Abidjan s'apprête à vibrer au rythme d'un événement exceptionnel : Concert Live Célébration, une soirée 100% émotion, nostalgie et belles mélodies 💕💖 Venez célébrer la fête des mères dans une ambiance chaleureuse et festive. Les plus grandes voix de la musique ivoirienne se réunissent pour vous offrir un spectacle unique.`
   },
   {
     id: 4,
@@ -66,5 +69,6 @@ export const EVENTS = [
     live: false,
     prices: ['15 000 XOF', '30 000 XOF', '60 000 XOF', '120 000 XOF'],
     publisher: 'ULTRACOM GROUP',
+    fullDescription: `Himra, la sensation du rap ivoirien, investit le Stade Ebimpé pour un concert historique ! Préparez-vous à vivre une expérience unique avec plus de 20 000 spectateurs. Les plus grands hits, des invités de prestige et des surprises exclusives vous attendent.`
   },
 ];

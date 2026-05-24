@@ -15,6 +15,7 @@ import { CommunityPage } from './components/pages/CommunityPage';
 import { NotificationsPage } from './components/pages/NotificationsPage';
 import { MenuPage } from './components/pages/MenuPage';
 import { ProfilePage } from './components/pages/ProfilePage';
+import { EventDetailPage } from './components/pages/EventDetailPage';
 
 // Data
 import { EVENTS } from './data/events';
@@ -25,6 +26,7 @@ const App = () => {
   const [activeSection, setActiveSection] = useState('events');
   const [activeCat, setActiveCat] = useState('all');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [selectedEvent, setSelectedEvent] = useState(null);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -38,9 +40,24 @@ const App = () => {
 
   const handleNavigate = (page) => {
     setCurrentPage(page);
+    setSelectedEvent(null); // Fermer le détail si on navigue
+  };
+
+  const openEventDetail = (event) => {
+    setSelectedEvent(event);
+  };
+
+  const closeEventDetail = () => {
+    setSelectedEvent(null);
   };
 
   const renderPage = () => {
+    // Si un événement est sélectionné, afficher la page de détail
+    if (selectedEvent) {
+      return <EventDetailPage event={selectedEvent} onBack={closeEventDetail} />;
+    }
+
+    // Sinon afficher les pages normales
     switch (currentPage) {
       case 'profile':
         return <ProfilePage />;
@@ -62,7 +79,7 @@ const App = () => {
                 </p>
                 <div className="events-grid">
                   {filteredEvents.map(ev => (
-                    <EventCard key={ev.id} event={ev} />
+                    <EventCard key={ev.id} event={ev} onClick={openEventDetail} />
                   ))}
                 </div>
               </>

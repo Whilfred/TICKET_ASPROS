@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { IcCalendar, IcClock, IcPin, IcHeart, IcShare, IcTicketBuy, IcCheck } from '../common/Icons';
 
-export const EventCard = ({ event }) => {
+export const EventCard = ({ event, onClick }) => {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(event.likes);
 
@@ -12,7 +12,7 @@ export const EventCard = ({ event }) => {
   };
 
   return (
-    <article className="event-card">
+    <article className="event-card" onClick={() => onClick(event)} style={{ cursor: 'pointer' }}>
       <div className="card-img-wrapper">
         <img src={event.image} alt={event.title} className="card-img" loading="lazy" />
 
@@ -64,7 +64,7 @@ export const EventCard = ({ event }) => {
           </div>
         </div>
 
-        <button className="btn-buy">
+        <button className="btn-buy" onClick={(e) => e.stopPropagation()}>
           <IcTicketBuy /> Acheter tickets
         </button>
 
