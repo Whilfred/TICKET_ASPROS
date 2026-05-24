@@ -349,8 +349,6 @@ const TopBar = ({ activeNav, onNavChange }) => (
       </button>
     </div>
 
-    <button className="btn-publish">Publier un événement</button>
-
     <div className="topbar-icons">
       <button className="icon-btn" aria-label="Communauté"><IcUsers /></button>
       <button className="icon-btn" aria-label="Notifications"><IcBell /></button>
