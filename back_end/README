@@ -1,0 +1,154 @@
+# TICKET ASPROS — Backend API
+
+API REST pour la plateforme de billetterie ASPROS.  
+Stack : Node.js · Express · PostgreSQL
+
+## Prérequis
+
+- Node.js v18+
+- PostgreSQL v14+
+- npm
+
+## Installation
+
+```bash
+# Cloner le repo
+git clone https://github.com/Whiifred/TICKET_ASPROS.git
+cd TICKET_ASPROS/back_end
+
+# Installer les dépendances
+npm install
+```
+
+## Configuration
+
+Crée un fichier `.env` à la racine de `back_end/` :
+
+PORT=3000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=ticket_aspros
+DB_USER=postgres
+DB_PASSWORD=ton_mot_de_passe
+JWT_SECRET=un_secret_long_et_complexe
+JWT_EXPIRES_IN=7d
+
+## Base de données
+
+Crée la base de données et les tables :
+
+```bash
+psql -U postgres
+```
+
+```sql
+CREATE DATABASE ticket_aspros;
+\c ticket_aspros
+```
+
+Colle ensuite le script SQL des tables: Il se trouve a la racine du backend (fichier `db/schema.sql`).
+
+## Démarrage
+
+```bash
+node index.js
+```
+
+Tu dois voir :
+
+```
+✅ Connecté à PostgreSQL
+🚀 Serveur démarré sur http://localhost:3000
+```
+
+## Structure du projet
+
+```
+back_end/
+├── index.js                        # Point d'entrée Express
+├── .env                            # Variables d'environnement
+├── db/
+│   └── index.js                    # Connexion PostgreSQL (Pool)
+├── middlewares/
+│   └── auth.js                     # Middleware JWT (authenticateToken, requireRole)
+├── controllers/
+│   ├── auth.controller.js          # Logique register et login
+│   └── events.controller.js        # Logique getEvents et createEvent
+└── routes/
+    ├── auth.routes.js              # POST /api/auth/register, /api/auth/login
+    └── events.routes.js            # GET /api/events, POST /api/events
+```
+
+## Endpoints disponibles
+
+### Auth
+
+| Méthode | Route | Description | Auth |
+|---------|-------|-------------|------|
+| POST | /api/auth/register | Créer un compte | Non |
+| POST | /api/auth/login | Se connecter | Non |
+
+**Register — Body :**
+```json
+{
+  "nom": "Nom Prenom",
+  "email": "john@gmail.com",
+  "password": "123456",
+  "role": "user"
+}
+```
+
+**Login — Body :**
+```json
+{
+  "email": "john@gmail.com",
+  "password": "123456"
+}
+```
+
+### Événements
+
+| Méthode | Route | Description | Auth |
+|---------|-------|-------------|------|
+| GET | /api/events | Récupérer tous les événements | Non |
+| POST | /api/events | Créer un événement | Oui |
+
+**Créer un événement — Body :**
+```json
+{
+  "title": "NAZA EN CONCERT LIVE",
+  "description": "Concert live de Naza",
+  "image_url": "https://monimage.com/naza.jpg",
+  "category": "Concert",
+  "city": "Abidjan",
+  "date": "2026-06-13",
+  "time": "14:00",
+  "venue": "Parc des Expositions d'Abidjan",
+  "organizer_id": 1,
+  "ticket_types": [
+    { "name": "Normal", "price": 10000, "quantity_total": 500 },
+    { "name": "VIP", "price": 25000, "quantity_total": 100 }
+  ]
+}
+```
+
+## Dépendances
+
+| Package | Rôle |
+|---------|------|
+| express | Framework serveur HTTP |
+| pg | Connexion PostgreSQL |
+| dotenv | Lecture du fichier .env |
+| bcryptjs | Hashage des mots de passe |
+| jsonwebtoken | Génération et vérification des tokens JWT |
+| cors | Autoriser les requêtes cross-origin |
+
+## Équipe
+
+| Membre | Rôle |
+|--------|------|
+| Fathane | Lead Tech — Backend |
+| Chris | Frontend |
+| Ganourobin | Liaison Frontend/Backend |
+
+*ASPROS Dev — 2026*
