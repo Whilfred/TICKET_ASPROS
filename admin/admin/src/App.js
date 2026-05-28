@@ -35,7 +35,7 @@ const loadAllData = async () => {
 if (activeTab === 'categories' || activeTab === 'events') {
   const res = await fetch(`${API_URL}/categories`);
   const data = await res.json();
-  console.log('Catégories reçues:', data);  // ← Ajoute ce log
+  console.log('Catégories reçues:', data); 
   setCategories(Array.isArray(data) ? data : []);
 }
     if (activeTab === 'events') {
